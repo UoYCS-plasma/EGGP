@@ -1,0 +1,498 @@
+Main = markOutputNode!; markActiveNode!; try weighted:pickNeutral; try weighted:pickNeutral; try sweighted:{idemAndF,idemOrF,doubNandF,doubNorF}; deleteOldNEdge!; deleteOldAEdge!; unmarkEdge!; unmarkNode!
+
+markOutputNode
+(
+	a : list
+)
+[
+	(n0, a : "OUT")
+	|
+]
+=>
+[
+	(n0, a : "OUT"#blue)
+	|
+]
+interface = {
+	n0
+}
+
+markActiveNode
+(
+	a,b, c : list
+)
+[
+	(n0, a#blue)
+	(n1, b)
+	|
+	(e0, n0, n1, c)
+]
+=>
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	|
+	(e0, n0, n1, c)
+]
+interface = {
+	n0,n1
+}
+
+pickNeutral
+(
+	a : list
+)
+[
+	(n0, a)
+	|
+]
+=>
+[
+	(n0, a#green)
+	|
+]
+interface = {
+	n0
+}
+
+
+
+unmarkNode
+(
+	a : list
+)
+[
+	(n0, a#any)
+	|
+]
+=>
+[
+	(n0, a)
+	|
+]
+interface = {
+	n0
+}
+
+deleteOldAEdge
+(
+	a, b,c : list
+)
+[
+	(n0, a#red)
+	(n1, b#any)
+	|
+	(e0, n0, n1, c)
+]
+=>
+[
+	(n0, a#red)
+	(n1, b#any)
+	|
+]
+interface = {
+	n0, n1
+}
+
+deleteOldNEdge
+(
+	a, b,c : list
+)
+[
+	(n0, a#red)
+	(n1, b)
+	|
+	(e0, n0, n1,c)
+]
+=>
+[
+	(n0, a#red)
+	(n1, b)
+	|
+]
+interface = {
+	n0, n1
+}
+
+unmarkEdge
+(
+	a, b, c : list
+)
+[
+	(n0, a#any)
+	(n1, b#any)
+	|
+	(e0, n0, n1,c#red)
+]
+=>
+[
+	(n0, a#any)
+	(n1, b#any)
+	|
+	(e0, n0, n1, c)
+]
+interface = {
+	n0, n1
+}
+
+
+demorgansF1
+(
+	a, b, c, d,e,f,g : list;
+	s, t:string
+)
+[
+	(n0, "NOT"#blue)
+	(n1, "AND"#blue)
+	(n2, a#blue)
+	(n3, b#blue)
+	(n4, c:s#green)
+	(n5, d:t#green)
+	|
+	(e0, n0, n1, e)
+	(e1, n1, n2, f)
+	(e2, n1, n3, g)
+]
+=>
+[
+	(n0, "OR"#blue)
+	(n1, "AND"#blue)
+	(n2, a#blue)
+	(n3, b#blue)
+	(n4, "NOT"#red)
+	(n5, "NOT"#red)
+	|
+	(e0, n0, n4, 0)
+	(e1, n0, n5, 1)
+	(e2, n4, n2, 0#red)
+	(e3, n5, n3, 0#red)
+	(e4, n1, n2, f)
+	(e5, n1, n3, g)
+]
+interface = {
+	n0, n1, n2, n3, n4, n5
+}
+where s != "IN" and t != "IN"
+
+demorgansB1
+(
+	a, b, c, d,e,f,g,h : list;
+	s : string
+)
+[
+	(n0, "OR"#blue)
+	(n1, "NOT"#blue)
+	(n2, "NOT"#blue)
+	(n3, a#blue)
+	(n4, b#blue)
+	(n5, c:s#green)
+	|
+	(e0, n0, n1, e)
+	(e3, n0, n2, f)
+	(e1, n1, n3, g)
+	(e2, n2, n4, h)
+]
+=>
+[
+	(n0, "NOT"#blue)
+	(n1, "NOT"#blue)
+	(n2, "NOT"#blue)
+	(n3, a#blue)
+	(n4, b#blue)
+	(n5, "AND"#red)
+	|
+	(e0, n0, n5, 0)
+	(e1, n1, n3, g)
+	(e2, n2, n4, h)
+	(e3, n5, n3, 0#red)
+	(e4, n5, n4, 1#red)
+]
+interface = {
+	n0, n1, n2, n3, n4, n5
+}
+where s != "IN"
+
+demorgansB2
+(
+	a, b, c, d,e,f,g,h : list;
+	s : string
+)
+[
+	(n0, "AND"#blue)
+	(n1, "NOT"#blue)
+	(n2, "NOT"#blue)
+	(n3, a#blue)
+	(n4, b#blue)
+	(n5, c:s#green)
+	|
+	(e0, n0, n1, e)
+	(e3, n0, n2, f)
+	(e1, n1, n3, g)
+	(e2, n2, n4, h)
+]
+=>
+[
+	(n0, "NOT"#blue)
+	(n1, "NOT"#blue)
+	(n2, "NOT"#blue)
+	(n3, a#blue)
+	(n4, b#blue)
+	(n5, "OR"#red)
+	|
+	(e0, n0, n5, 0)
+	(e1, n1, n3, g)
+	(e2, n2, n4, h)
+	(e3, n5, n3, 0#red)
+	(e4, n5, n4, 1#red)
+]
+interface = {
+	n0, n1, n2, n3, n4, n5
+}
+where s != "IN"
+
+
+demorgansF2
+(
+	a, b, c, d,e,f,g : list;
+	s, t:string
+)
+[
+	(n0, "NOT"#blue)
+	(n1, "OR"#blue)
+	(n2, a#blue)
+	(n3, b#blue)
+	(n4, c:s#green)
+	(n5, d:t#green)
+	|
+	(e0, n0, n1, e)
+	(e1, n1, n2, f)
+	(e2, n1, n3, g)
+]
+=>
+[
+	(n0, "AND"#blue)
+	(n1, "OR"#blue)
+	(n2, a#blue)
+	(n3, b#blue)
+	(n4, "NOT"#red)
+	(n5, "NOT"#red)
+	|
+	(e0, n0, n4, 0)
+	(e1, n0, n5, 1)
+	(e2, n4, n2, 0#red)
+	(e3, n5, n3, 0#red)
+	(e4, n1, n2, f)
+	(e5, n1, n3, g)
+]
+interface = {
+	n0, n1, n2, n3, n4, n5
+}
+where s != "IN" and t != "IN"
+
+doubNegF
+(
+	a, b, c, d,e : list;
+	s, t:string
+)
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, c:s#green)
+	(n4, d:t#green)
+	|
+	(e0, n0, n1, e)
+]
+=>
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, "NOT"#red)
+	(n4, "NOT"#red)
+	|
+	(e0, n0, n3, e)
+	(e1, n3, n4, 0#red)
+	(e2, n4, n1, 0#red)
+]
+interface = {
+	n0, n1, n3, n4
+}
+where s != "IN" and t != "IN"
+
+doubNorF
+(
+	a, b, c, d,e : list;
+	s, t:string
+)
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, c:s#green)
+	(n4, d:t#green)
+	|
+	(e0, n0, n1, e)
+]
+=>
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, "NOR"#red)
+	(n4, "NOR"#red)
+	|
+	(e0, n0, n3, e)
+	(e1, n3, n4, 0#red)
+	(e3, n3, n4, 1#red)
+	(e2, n4, n1, 0#red)
+	(e4, n4, n1, 1#red)
+]
+interface = {
+	n0, n1, n3, n4
+}
+where s != "IN" and t != "IN"
+
+doubNandF
+(
+	a, b, c, d,e : list;
+	s, t:string
+)
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, c:s#green)
+	(n4, d:t#green)
+	|
+	(e0, n0, n1, e)
+]
+=>
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, "NAND"#red)
+	(n4, "NAND"#red)
+	|
+	(e0, n0, n3, e)
+	(e1, n3, n4, 0#red)
+	(e3, n3, n4, 1#red)
+	(e2, n4, n1, 0#red)
+	(e4, n4, n1, 1#red)
+]
+interface = {
+	n0, n1, n3, n4
+}
+where s != "IN" and t != "IN"
+
+idemAndF
+(
+	a, b, c, e : list;
+	s :string
+)
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, c:s#green)
+	|
+	(e0, n0, n1, e)
+]
+=>
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, "AND"#red)
+	|
+	(e0, n0, n3, e)
+	(e1, n3, n1, 0#red)
+	(e2, n3, n1, 1#red)
+]
+interface = {
+	n0, n1, n3
+}
+where s != "IN"
+
+
+idemOrF
+(
+	a, b, c, e : list;
+	s :string
+)
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, c:s#green)
+	|
+	(e0, n0, n1, e)
+]
+=>
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	(n3, "OR"#red)
+	|
+	(e0, n0, n3, e)
+	(e1, n3, n1, 0#red)
+	(e2, n3, n1, 1#red)
+]
+interface = {
+	n0, n1, n3
+}
+where s != "IN"
+
+expandNor
+(
+	a, b, c, d, e, f : list;
+	s :string
+)
+[
+	(n0, a:"NOR"#blue)
+	(n1, b#blue)
+	(n2, d#blue)
+	(n3, c:s#green)
+	|
+	(e0, n0, n1, e)
+	(e1, n0, n2, f)
+]
+=>
+[
+	(n0, a:"NOT"#blue)
+	(n1, b#blue)
+	(n2, d#blue)
+	(n3, "OR"#red)
+	|
+	(e0, n3, n1, e#red)
+	(e1, n3, n2, f#red)
+	(e2, n0, n3, 0)
+]
+interface =
+{
+  n0, n1, n2, n3
+}
+where s != "IN"
+
+expandNand
+(
+	a, b, c, d, e, f : list;
+	s :string
+)
+[
+	(n0, a:"NAND"#blue)
+	(n1, b#blue)
+	(n2, d#blue)
+	(n3, c:s#green)
+	|
+	(e0, n0, n1, e)
+	(e1, n0, n2, f)
+]
+=>
+[
+	(n0, a:"NOT"#blue)
+	(n1, b#blue)
+	(n2, d#blue)
+	(n3, "AND"#red)
+	|
+	(e0, n3, n1, e#red)
+	(e1, n3, n2, f#red)
+	(e2, n0, n3, 0)
+]
+interface =
+{
+  n0, n1, n2, n3
+}
+where s != "IN"

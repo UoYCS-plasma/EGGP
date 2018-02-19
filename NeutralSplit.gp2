@@ -1,0 +1,211 @@
+Main = markOutputNode!; markActiveNode!; try pickNeutral; try jweighted:{split22, split21}; deleteOldNEdge!; deleteOldAEdge!; unmarkEdge!; unmarkNode!
+
+markOutputNode
+(
+	a : list
+)
+[
+	(n0, a : "OUT")
+	|
+]
+=>
+[
+	(n0, a : "OUT"#blue)
+	|
+]
+interface = {
+	n0
+}
+
+markActiveNode
+(
+	a,b, c : list
+)
+[
+	(n0, a#blue)
+	(n1, b)
+	|
+	(e0, n0, n1, c)
+]
+=>
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	|
+	(e0, n0, n1, c)
+]
+interface = {
+	n0,n1
+}
+
+pickNeutral
+(
+	a : list
+)
+[
+	(n0, a)
+	|
+]
+=>
+[
+	(n0, a#green)
+	|
+]
+interface = {
+	n0
+}
+
+
+
+unmarkNode
+(
+	a : list
+)
+[
+	(n0, a#any)
+	|
+]
+=>
+[
+	(n0, a)
+	|
+]
+interface = {
+	n0
+}
+
+deleteOldAEdge
+(
+	a, b,c : list
+)
+[
+	(n0, a#red)
+	(n1, b#any)
+	|
+	(e0, n0, n1, c)
+]
+=>
+[
+	(n0, a#red)
+	(n1, b#any)
+	|
+]
+interface = {
+	n0, n1
+}
+
+deleteOldNEdge
+(
+	a, b,c : list
+)
+[
+	(n0, a#red)
+	(n1, b)
+	|
+	(e0, n0, n1,c)
+]
+=>
+[
+	(n0, a#red)
+	(n1, b)
+	|
+]
+interface = {
+	n0, n1
+}
+
+unmarkEdge
+(
+	a, b, c : list
+)
+[
+	(n0, a#any)
+	(n1, b#any)
+	|
+	(e0, n0, n1,c#red)
+]
+=>
+[
+	(n0, a#any)
+	(n1, b#any)
+	|
+	(e0, n0, n1, c)
+]
+interface = {
+	n0, n1
+}
+
+
+split22
+(
+  a, b, c, d, e, f : string;
+  g, h, i, j : int
+)
+[
+  (n0, a#blue)
+  (n1, b#blue)
+  (n2, c#blue)
+  (n3, d#blue)
+  (n4, e#blue)
+  (n5, f#green)
+  |
+  (e0, n0, n2, g)
+  (e1, n1, n2, h)
+  (e2, n2, n3, i)
+  (e3, n2, n4, j)
+]
+=>
+[
+  (n0, a#blue)
+  (n1, b#blue)
+  (n2, c#blue)
+  (n3, d#blue)
+  (n4, e#blue)
+  (n5, c#red)
+  |
+  (e0, n0, n2, g)
+  (e1, n1, n5, h)
+  (e2, n2, n3, i)
+  (e3, n2, n4, j)
+  (e4, n5, n3, i#red)
+  (e5, n5, n4, j#red)
+]
+interface = {
+  n0, n1, n2, n3, n4, n5
+}
+
+split21
+(
+  a, b, c, d, f : string;
+  g, h, i, j : int
+)
+[
+  (n0, a#blue)
+  (n1, b#blue)
+  (n2, c#blue)
+  (n3, d#blue)
+  (n5, f#green)
+  |
+  (e0, n0, n2, g)
+  (e1, n1, n2, h)
+  (e2, n2, n3, i)
+  (e3, n2, n3, j)
+]
+=>
+[
+  (n0, a#blue)
+  (n1, b#blue)
+  (n2, c#blue)
+  (n3, d#blue)
+  (n5, c#red)
+  |
+  (e0, n0, n2, g)
+  (e1, n1, n5, h)
+  (e2, n2, n3, i)
+  (e3, n2, n3, j)
+  (e4, n5, n3, i#red)
+  (e5, n5, n3, j#red)
+]
+interface = {
+  n0, n1, n2, n3, n5
+}

@@ -1,0 +1,70 @@
+#include <time.h>
+#include "common.h"
+#include "debug.h"
+#include "graph.h"
+#include "graphStacks.h"
+#include "parser.h"
+#include "morphism.h"
+
+#include "neutral.h"
+
+Graph *host = NULL;
+int *node_map = NULL;
+
+static Graph *buildHostGraph(char *host_file)
+{
+   yyin = fopen(host_file, "r");
+   if(yyin == NULL)
+   {
+      perror(host_file);
+      return NULL;
+   }
+
+   host = newGraph(100000, 100000);
+   node_map = calloc(100000, sizeof(int));
+   if(node_map == NULL)
+   {
+      freeGraph(host);
+      return NULL;
+   }
+   /* The parser populates the host graph using node_map to add edges with
+    * the correct source and target indices. */
+   int result = yyparse();
+   free(node_map);
+   fclose(yyin);
+   if(result == 0) return host;
+   else
+   {
+      freeGraph(host);
+      return NULL;
+   }
+}
+
+int main(int argc, char **argv)
+{
+   srand(time(NULL));
+   if(argc != 2)
+   {
+      fprintf(stderr, "Error: missing <host-file> argument.\n");
+      return 0;
+   }
+
+   MutateNode_host = buildHostGraph(argv[1]);
+   if(MutateNode_host == NULL)
+   {
+      fprintf(stderr, "Error parsing host graph file.\n");
+      return 0;
+   }
+   MutateNode_execute(MutateNode_host);
+   FILE *output_file = fopen("gp2.output", "w");
+   if(output_file == NULL)
+   {
+      perror("gp2.output");
+      exit(1);
+   }
+   printfGraph(MutateNode_host);
+   printGraph(MutateNode_host, output_file);
+   printf("Output graph saved to file gp2.output!\n");
+   fclose(output_file);
+   return 0;
+}
