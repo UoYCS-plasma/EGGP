@@ -1,7 +1,7 @@
 #!/bin/bash
 path=/home/atkrye/Documents/EGGP
 projpath=/home/atkrye/Documents/EGGP
-pgp2P=( MutateFeedForwardEdge MutateNode GenerateIndividual )
+pgp2P=( MutateFeedForwardEdge MutateNode GenerateIndividual MutateFuncFYShuffle )
 eggpsrc=( eggp.c eggp.h common_functions.c common_functions.h )
 projfiles=( circuit.c )
 lib_path=/P-GP2-Lib
@@ -33,4 +33,4 @@ do
 done
 cd $path/Build
 make
-cp $path/Build/eggp $path/eggp2
+cp $path/Build/eggp $path/eggp

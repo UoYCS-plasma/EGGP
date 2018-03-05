@@ -1,10 +1,11 @@
-Main = weighted:pickNode; weighted:mutateNode; {markOutputsBlue, markOutputsRed}!; sweighted:{addEdgeToArity,deleteEdgeToArity}!; unmarkBlue!; resetArityCounter; bucketEdge!; weighted:readdEdge!; deleteArityC; {unmarkBlue, unmarkRed}!
+Main = [pickNode]; [mutateNode]; {markOutputsBlue, markOutputsRed}!; [addEdgeToArity,deleteEdgeToArity]!; unmarkBlue!; resetArityCounter; bucketEdge!; [readdEdge]!; deleteArityC; {unmarkBlue, unmarkRed}!
 
 pickNode
 (
 	a : list;
 	s : string
 )
+[1.0]
 [
 	(n0, a:s)
 	|
@@ -26,6 +27,7 @@ mutateNode
 	s, f : string;
 	x : int
 )
+[1.0]
 [
 	(n0, a:s#blue)
 	(f0(R), "FunctionSet":f:x)
@@ -97,6 +99,7 @@ addEdgeToArity
 	f, s : string;
 	x, y : int
 )
+[1.0]
 [
 	(n0, a:f#red)
 	(n1, b:s)
@@ -125,6 +128,7 @@ deleteEdgeToArity
 	f : string;
 	x, y, z : int
 )
+[1.0]
 [
 	(n0, a:f#red)
 	(n1, b)
@@ -191,6 +195,7 @@ readdEdge
   a, b : list;
 	x, y : int
 )
+[1.0]
 [
 	(n0, a#red)
 	(n1, b)

@@ -19,6 +19,7 @@
 #include "GenerateIndividual.h"
 #include "MutateFeedForwardEdge.h"
 #include "MutateNode.h"
+#include "MutateFuncFYShuffle.h"
 
 //Local function headers
 static Graph* duplicateGraph(Graph* host);
@@ -483,7 +484,7 @@ void default_mutate_individual(Graph* host_graph, Params* params){
 	          MutateFeedForwardEdge_execute(host_graph);
 	        }
 	        else{
-	          MutateNode_execute(host_graph);
+	          MutateFuncFYShuffle_execute(host_graph);
 	        }
 	        unmarkGraph(host_graph);
 	     }
@@ -496,7 +497,7 @@ void default_mutate_individual(Graph* host_graph, Params* params){
 				MutateFeedForwardEdge_execute(host_graph);
 			}
 			else{
-				MutateNode_execute(host_graph);
+				MutateFuncFYShuffle_execute(host_graph);
 			}
 			unmarkGraph(host_graph);
 				 mutated = true;
@@ -509,7 +510,7 @@ void default_mutate_individual(Graph* host_graph, Params* params){
 				MutateFeedForwardEdge_execute(host_graph);
 			}
 			else{
-				MutateNode_execute(host_graph);
+				MutateFuncFYShuffle_execute(host_graph);
 			}
 			unmarkGraph(host_graph);
 	}
