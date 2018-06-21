@@ -1,0 +1,139 @@
+//********************************Generate Individual********************************
+
+//Code for generating the first individual
+Main = initNodeCounter; AddNode!; [connectOutput]!; deleteNodeCounter
+AddNode = [addNode]; [addEdgeToArity]!; decolourNode
+
+// INIT NODE COUNTER - Creates a counter for adding nodes
+initNodeCounter
+(
+	x : int
+)
+[
+	(n0(R), "Nodes":x)
+	|
+]
+=>
+[
+	(n0(R), "Nodes":x)
+	(n1(R), "NodeCounter":x)
+	|
+]
+interface =
+{
+	n0
+}
+
+// ADD NODE - Adds a function from the FunctionSet
+addNode
+(
+	f : string;
+	x, y : int
+)
+[1.0]
+[
+	(n0(R), "NodeCounter":x)
+	(f0(R), "FunctionSet":f:y)
+	|
+]
+=>
+[
+	(f0(R), "NodeCounter":x - 1)
+	(n0(R), "FunctionSet":f:y)
+	(t1, f#red)
+	|
+]
+interface =
+{
+	f0, n0
+}
+where x > 0
+
+// ADD EDGE TO ARITY - Adds an edge to a target node until it has sufficient arity, reused in mutations
+addEdgeToArity
+(
+	a, b : list;
+	f, s : string;
+	x : int
+)
+[1.0]
+[
+	(n0, a:f#red)
+	(n1, b:s)
+	(f0(R), "FunctionSet":f:x)
+	|
+]
+=>
+[
+	(n0, a:f#red)
+	(n1, b:s)
+	(f0(R), "FunctionSet":f:x)
+	|
+	(e0, n0, n1, outdeg(n0))
+]
+interface =
+{
+	n0, n1, f0
+}
+where s != "OUT" and outdeg(n0) < x
+
+// DECOLOUR NODE - Removes red colour so node can be used as input to other nodes
+decolourNode
+(
+	a : list
+)
+[
+	(n0, a#red)
+	|
+]
+=>
+[
+	(n0, a)
+	|
+]
+interface =
+{
+	n0
+}
+
+// CONNECT OUTPUT - CONNECT OUTPUT
+connectOutput
+(
+	a, b : list;
+	s : string
+)
+[1.0]
+[
+	(n0, a:"OUT")
+	(n1, b:s)
+	|
+]
+=>
+[
+	(n0, a:"OUT")
+	(n1, b:s)
+	|
+	(e0, n0, n1, 0)
+]
+interface =
+{
+	n0, n1
+}
+where s !="OUT" and outdeg(n0) < 1
+
+// Delete NODE COUNTER - Deletes the counter for adding nodes
+deleteNodeCounter
+(
+	x : int
+)
+[
+	(n1(R), "NodeCounter":x)
+	|
+]
+=>
+[
+	|
+]
+interface =
+{
+}

@@ -1,3 +1,6 @@
+#ifndef COMFUN_H
+#define COMFUN_H
+
 //C Libraries
 #include <time.h>
 #include <stdio.h>
@@ -20,15 +23,18 @@ typedef struct Function {
     struct Function* next;
 } Function;
 
-typedef struct FunctionSet {
+typedef struct Function_Set {
     int functionCount;
-    Function* first;
-    Function* last;
-} FunctionSet;
+    struct Function* first;
+    struct Function* last;
+} Function_Set;
 
-FunctionSet* get_common_fset(string fsetV);
-void add_function(FunctionSet* functionSet, string name, int arity, double (*func)(double* inputs));
-Function* get_function(FunctionSet* functionSet, string name);
+int get_max_arity(Function_Set* fset);
+void print_fset(Function_Set* fsetV);
+Function_Set* get_common_fset(string fsetV);
+void add_function(Function_Set* fset, string name, int arity, double (*func)(double* inputs));
+Function* get_function(Function_Set* fset, string name);
+void freeFset(Function_Set* fset);
 double common_and(double* inputs);
 double common_or(double* inputs);
 double common_nand(double* inputs);
@@ -40,3 +46,9 @@ double common_sub(double* inputs);
 double common_div(double* inputs);
 double common_mul(double* inputs);
 double common_id(double* inputs);
+double common_sin(double* inputs);
+double common_log(double* inputs);
+double common_cos(double* inputs);
+double common_exp(double* inputs);
+
+#endif

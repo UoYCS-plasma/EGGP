@@ -1,61 +1,30 @@
-//C Libraries
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <stdbool.h>
+#ifndef EGGP_H
+#define EGGP_H
 
-//P-GP2 Libraries
-#include "common.h"
-#include "debug.h"
-#include "graph.h"
-#include "graphStacks.h"
-#include "parser.h"
-#include "morphism.h"
+#include <stdint.h>
 #include "common_functions.h"
+#include "evolutionary_algorithm.h"
+#include "generic_operators.h"
+#include "utils.h"
 
-//Compiled P-GP2 Programs
-#include "GenerateIndividual.h"
+#include "graph.h"
+#include "common.h"
 
-typedef struct Result {
-    int generation;
-    Graph* final_graph;
-    double final_score;
-} Result;
+typedef struct EGGP_init_env{
+  Function_Set* fset;
+  GP_Dataset* dataset;
+  int nodes;
+  int pop_size;
+} EGGP_init_env;
 
-typedef struct Dataset {
-    int inputs;
-    int outputs;
-    int rows;
-    double** data;
-} Dataset;
+EGGP_init_env* default_eggp_init_env(GP_Dataset* dataset, Function_Set* fset);
+GP_1_plus_lambda_env* default_eggp_select_env(Function_Set* fset);
+GP_eval_env* default_eggp_eval_env(GP_Dataset* dataset, Function_Set* fset);
+Target_0_env* default_eggp_termination_env();
+EAArgs* default_eggp_EAArgs(GP_Dataset* dataset, Function_Set* fset);
+Fixed_pop_env* default_eggp_pop_size_env();
 
-typedef struct Params {
-    FunctionSet* functionSet;
-    int nodes;
-    int inputs;
-    int outputs;
-    int lambda;
-    int maxgens;
-    bool debug;
-    int runs;
-    int neutral_mutations;
-    double mutation_rate;
-    double target_min_error;
-    bool size_pressure;
-    int permitted_size;
-    int mutations;
-    int n;
-} Params;
+Graph** eggp_init(uintptr_t env_pointer);
+Graph* eggp_mutate(Graph* host, Function_Set* fset, double mutation_rate);
 
-Params* default_params(char* fset, Dataset* dataset);
-void default_mutate_individual(Graph* host_graph, Params* params);
-void default_neutral_mutation(Graph* host_graph, Params* params);
-double default_evaluate_individual(Graph* host, Dataset* dataset, Params* params);
-double default_max_error(Graph* host, Dataset* dataset, Params* params);
-Graph* default_generate_individual(Params* params);
-Dataset* loadDataSet(char* file, int inputs, int outputs, int rows);
-Result* one_plus_lambda(Dataset* dataset, Params* params);
-Result* one_plus_lambda_multi(Dataset* dataset, Params* params);
-Result* n_plus_lambda(Dataset* dataset, Params* params);
-Result* n_plus_lambda_multi(Dataset* dataset, Params* params);
+#endif

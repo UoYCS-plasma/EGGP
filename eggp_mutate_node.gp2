@@ -1,0 +1,42 @@
+Main = [pickNode]; [mutateNode]
+
+pickNode
+(
+	s : string
+)
+[
+	(n0, s)
+	|
+]
+=>
+[
+	(n0, s#blue)
+	|
+]
+interface =
+{
+	n0
+}
+where s != "IN" and s != "OUT"
+
+mutateNode
+(
+	b : list;
+	s, f : string
+)
+[
+	(n0, s#blue)
+	(f0(R), "FunctionSet":f:b)
+	|
+]
+=>
+[
+	(n0, f)
+	(f0(R), "FunctionSet":f:b)
+	|
+]
+interface =
+{
+	n0, f0
+}
+where s != f

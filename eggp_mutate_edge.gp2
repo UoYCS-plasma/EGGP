@@ -1,0 +1,109 @@
+Main = try ([pickEdge]; markOutputs!; [mutateEdge]; unmarkOutputs!)
+
+pickEdge
+(
+	a, b, c : list
+)
+[
+	(n0, a)
+	(n1, b)
+	|
+	(e0, n0, n1, c)
+]
+=>
+[
+	(n0, a#blue)
+	(n1, b#green)
+	|
+	(e0, n0, n1, c#green)
+]
+interface =
+{
+	n0, n1
+}
+
+markOutputs
+(
+	a, b, c : list
+)
+[
+	(n0, a)
+	(n1, b#blue)
+	|
+	(e0, n0, n1, c)
+]
+=>
+[
+	(n0, a#blue)
+	(n1, b#blue)
+	|
+	(e0, n0, n1, c)
+]
+interface =
+{
+	n0, n1
+}
+
+pickNewTarget
+(
+	d : list;
+	s : string
+)
+[
+	(n2, d:s)
+	|
+]
+=>
+[
+	(n2, d:s#red)
+	|
+]
+interface =
+{
+	n2
+}
+where s != "OUT"
+
+mutateEdge
+(
+	a, b, c, d : list;
+	s : string
+)
+[
+	(n0, a#blue)
+	(n1, b#green)
+	(n2, d:s)
+	|
+	(e0, n0, n1, c#green)
+]
+=>
+[
+	(n0, a)
+	(n1, b)
+	(n2, d:s)
+	|
+	(e0, n0, n2, c)
+]
+interface =
+{
+	n0, n1, n2
+}
+where s != "OUT"
+
+unmarkOutputs
+(
+	a : list
+)
+[
+	(n0, a#any)
+	|
+]
+=>
+[
+	(n0, a)
+	|
+]
+interface =
+{
+	n0
+}
