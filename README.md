@@ -10,13 +10,13 @@ This iteration of EGGP is designed to evolve acyclic graphs with sharing (e.g. f
 
 To read more about EGGP and read about our promising results, check out our paper at EuroGP 2018:
 
-[Evolving Graphs by Graph Programming](https://link.springer.com/chapter/10.1007/978-3-319-77553-1_3)
-- Timothy Atkinson, Detlef Plump, Susan Stepney. EuroGP 2018.
+- [Evolving Graphs by Graph Programming](https://link.springer.com/chapter/10.1007/978-3-319-77553-1_3)
+Timothy Atkinson, Detlef Plump, Susan Stepney. EuroGP 2018.
 
 To learn about the probabilistic graph programming technique that we use to implement EGGP, check out our paper at ICGT 2018:
 
-[Probabilistic Graph Programs for Randomised and Evolutionary Algorithms](https://link.springer.com/chapter/10.1007%2F978-3-319-92991-0_5)
-- Timothy Atkinson, Detlef Plump, Susan Stepney. ICGT 2018.
+- [Probabilistic Graph Programs for Randomised and Evolutionary Algorithms](https://link.springer.com/chapter/10.1007%2F978-3-319-92991-0_5)
+Timothy Atkinson, Detlef Plump, Susan Stepney. ICGT 2018.
 
 
 ### How do I use the code?
