@@ -25,7 +25,7 @@ Timothy Atkinson, Detlef Plump, Susan Stepney. ICGT 2018.
 
 The top-level demo.c file should be largely self explanatory for a casual user. If you want to get deeper into the code and implement your own ideas then hopefully the comments see you through. Otherwise, throw me an email and I'll do my best to help.
 
-To actually *build* the code, you'll need to do 3 things. Firstly:
+To actually *build* the code, you'll need to do 3 things:
 
 1. Install a local version of P-GP 2. [The instructions on the github page](https://github.com/UoYCS-plasma/P-GP2) should hopefully be clear enough.
 2. Replace the string "/YOUR/PGP2/INSTALL/DIR/" on line 1 of the top-level Makefile with the path to your P-GP 2 installation.
